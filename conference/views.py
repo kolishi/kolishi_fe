@@ -1,23 +1,24 @@
 from django.http.response import HttpResponse
+from conference.models import Counter
 
 __author__ = 'tal'
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django import forms
 from django_twilio.client import twilio_client
-NumberOfCalls =0
-ConferenceName =0
 
 def UpdateConferenceSerial():
-    global NumberOfCalls
-    global ConferenceName
-    if NumberOfCalls % 2 == 0 :
-        ConferenceName = NumberOfCalls /2
-    NumberOfCalls +=1
+    NumberOfCalls =Counter.objects.get_or_create(pk=1)[0]
+    ConferenceName = Counter.objects.get_or_create(pk=2)[0]
+    if NumberOfCalls.Count % 2 == 0 :
+        ConferenceName.Count = NumberOfCalls.Count /2
+        ConferenceName.save()
+    NumberOfCalls.Count +=1
+    NumberOfCalls.save()
 
 def call(num):
-    global ConferenceName
     UpdateConferenceSerial()
+    ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     c = twilio_client.calls.create(to=num, from_ = "+97243748620",
             url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
     )
@@ -32,7 +33,9 @@ def thanks(request,*args):
     return HttpResponse("Calling")
 
 def conf(call):
+    ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     return HttpResponse(
+
         "Call status is {0}".format(ConferenceName)
     )
 
