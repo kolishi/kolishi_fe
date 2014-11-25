@@ -36,6 +36,16 @@ def call(num,origin_number):
 class NameForm(forms.Form):
     Caller = forms.CharField(label='Enter Your phone number (eg +14156634567)\n', max_length=100)
 
+class PhoneNumberForm(forms.Form):
+
+    CountryCode = forms.IntegerField(label="Country Code",widget=forms.NumberInput(attrs={'size': '1'}))
+    AreaCode = forms.IntegerField(label="Area Code",widget=forms.NumberInput(attrs={'size': '1'}))
+    PhoneNumber = forms.IntegerField(label="Phone Number",widget=forms.NumberInput(attrs={'size': '1'}))
+    def get_number(self):
+        return "+{0}{1}{2}".format(self.cleaned_data["CountryCode"],
+                                   self.cleaned_data["AreaCode"],
+                                   self.cleaned_data["PhoneNumber"]
+                            )
 def thanks(request,*args):
     text =request.POST
 
@@ -60,7 +70,7 @@ def get_name(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = NameForm(request.POST)
+        form = PhoneNumberForm(request.POST)
 
 
         # check whether it's valid:
@@ -74,13 +84,13 @@ def get_name(request):
             else:
                 country = 'Rome' # default city
             origin_number =country_to_origin_number(country)
-            c= call(form.cleaned_data["Caller"],origin_number)
+            c= call(form.get_number(),origin_number)
             # redirect to a new URL:
             return conf(c,country)
 
     # if a GET (or any other method) we'll create a blank form
     else:
-        form = NameForm()
+        form = PhoneNumberForm()
 
 
     return render(request, 'name.html', {'form': form})
