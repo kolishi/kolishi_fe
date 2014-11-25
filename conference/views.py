@@ -28,10 +28,9 @@ def UpdateConferenceSerial():
 def call(num,origin_number):
     UpdateConferenceSerial()
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
-    c = "temp"
-    #c = twilio_client.calls.create(to=num, from_ = "+97243748620",
-    #        url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
-    #)
+    c = twilio_client.calls.create(to=num, from_ = origin_number,
+            url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
+    )
     return c
 
 class NameForm(forms.Form):
