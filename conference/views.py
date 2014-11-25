@@ -55,7 +55,7 @@ def conf(call,city):
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     return HttpResponse(
 
-        "Call status is {0} from {1}".format(ConferenceName,city)
+        "Call status is {0} ".format(ConferenceName)
     )
 
     return HttpResponse(text)
