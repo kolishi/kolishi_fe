@@ -9,7 +9,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django_twilio.client import twilio_client
 PHONE_NUMERS = { "IL" : "97243748620",
-                 "UK" : "+441702680287",
+                 "GB" : "+441702680287",
                  "US" : "+15167084158"
 }
 
@@ -38,9 +38,9 @@ class NameForm(forms.Form):
 
 class PhoneNumberForm(forms.Form):
 
-    CountryCode = forms.IntegerField(label="Country Code",widget=forms.NumberInput(attrs={'size': '1'}))
-    AreaCode = forms.IntegerField(label="Area Code",widget=forms.NumberInput(attrs={'size': '1'}))
-    PhoneNumber = forms.IntegerField(label="Phone Number",widget=forms.NumberInput(attrs={'size': '1'}))
+    CountryCode = forms.IntegerField(label="Country Code",widget=forms.TextInput(attrs={'size': '1'}))
+    AreaCode = forms.IntegerField(label="Area Code",widget=forms.TextInput(attrs={'size': '1'}))
+    PhoneNumber = forms.IntegerField(label="Phone Number",widget=forms.TextInput(attrs={'size': '3'}))
     def get_number(self):
         return "+{0}{1}{2}".format(self.cleaned_data["CountryCode"],
                                    self.cleaned_data["AreaCode"],
