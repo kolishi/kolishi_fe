@@ -8,6 +8,13 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django import forms
 from django_twilio.client import twilio_client
+PHONE_NUMERS = { "IL" : "97243748620",
+                 "UK" : "+441702680287",
+                 "US" : "+15167084158"
+}
+
+def country_to_origin_number(Country_code):
+    return PHONE_NUMERS.get(Country_code,PHONE_NUMERS["US"])
 
 def UpdateConferenceSerial():
     NumberOfCalls =Counter.objects.get_or_create(pk=1)[0]
@@ -18,7 +25,7 @@ def UpdateConferenceSerial():
     NumberOfCalls.Count +=1
     NumberOfCalls.save()
 
-def call(num):
+def call(num,origin_number):
     UpdateConferenceSerial()
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     c = "temp"
@@ -64,12 +71,13 @@ def get_name(request):
             g = GeoIP()
             ip = get_client_ip(request)
             if ip:
-                city = g.country(ip)
+                country = g.country(ip)['country_code']
             else:
-                city = 'Rome' # default city
-            c= call(form.cleaned_data["Caller"])
+                country = 'Rome' # default city
+            origin_number =country_to_origin_number(country)
+            c= call(form.cleaned_data["Caller"],country)
             # redirect to a new URL:
-            return conf(c,city)
+            return conf(c,country)
 
     # if a GET (or any other method) we'll create a blank form
     else:
