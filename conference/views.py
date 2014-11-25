@@ -74,7 +74,7 @@ def get_name(request):
             else:
                 country = 'Rome' # default city
             origin_number =country_to_origin_number(country)
-            c= call(form.cleaned_data["Caller"],country)
+            c= call(form.cleaned_data["Caller"],origin_number)
             # redirect to a new URL:
             return conf(c,country)
 
