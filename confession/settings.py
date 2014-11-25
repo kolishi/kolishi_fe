@@ -83,7 +83,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
+GEOIP_PATH = BASE_DIR + '/geoip'
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     PROJECT_PATH + '/templates/',

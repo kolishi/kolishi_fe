@@ -1,5 +1,7 @@
 from django.http.response import HttpResponse
 from conference.models import Counter
+from django.contrib.gis.geoip import GeoIP
+
 
 __author__ = 'tal'
 from django.shortcuts import render
@@ -19,9 +21,10 @@ def UpdateConferenceSerial():
 def call(num):
     UpdateConferenceSerial()
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
-    c = twilio_client.calls.create(to=num, from_ = "+97243748620",
-            url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
-    )
+    c = "temp"
+    #c = twilio_client.calls.create(to=num, from_ = "+97243748620",
+    #        url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
+    #)
     return c
 
 class NameForm(forms.Form):
@@ -32,15 +35,21 @@ def thanks(request,*args):
 
     return HttpResponse("Calling")
 
-def conf(call):
+def conf(call,city):
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     return HttpResponse(
 
-        "Call status is {0}".format(ConferenceName)
+        "Call status is {0} from {1}".format(ConferenceName,city)
     )
 
     return HttpResponse(text)
-
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 def get_name(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -52,9 +61,15 @@ def get_name(request):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # ...
+            g = GeoIP()
+            ip = get_client_ip(request)
+            if ip:
+                city = g.country(ip)
+            else:
+                city = 'Rome' # default city
             c= call(form.cleaned_data["Caller"])
             # redirect to a new URL:
-            return conf(c)
+            return conf(c,ip)
 
     # if a GET (or any other method) we'll create a blank form
     else:
