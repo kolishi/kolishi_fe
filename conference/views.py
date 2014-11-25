@@ -69,7 +69,7 @@ def get_name(request):
                 city = 'Rome' # default city
             c= call(form.cleaned_data["Caller"])
             # redirect to a new URL:
-            return conf(c,ip)
+            return conf(c,city)
 
     # if a GET (or any other method) we'll create a blank form
     else:
