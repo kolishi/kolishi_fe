@@ -1,0 +1,79 @@
+ 
+<html>
+  <head>
+    <title>Kolishi.io</title>
+
+    <link rel='stylesheet'  href='http://fonts.googleapis.com/css?family=Lato:400,700' type='text/css'>
+
+
+
+    <style type="text/css">
+
+
+
+
+       h1.Header {
+        font-family: "Lato", sans-serif; 
+
+        font-size: 40px; 
+      }
+
+      form.form { 
+              text-align: center;
+          }
+
+
+      
+
+
+    </style>
+  </head>
+  <body>
+ 
+ <div align="center">
+
+{% load staticfiles %}
+<img src="{% static "conference/LogoKolishi.png" %}" alt="My image"/>
+
+<p>
+
+     <h1 class="Header">Kolishi.io
+
+<P>
+
+	Talk with random people over the phone
+</h1>	
+	<p>
+
+<form action="/test/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Call me!" />
+</form>
+
+		<p>
+			<h2>
+
+		 We will anonymously call you and connect you to a random person
+
+		 <p>
+		 </h2>
+
+		 	Your phone number stays<br>
+		 	<h3>
+		 	COMPLETELY ANONYMOUS
+		 </h3>
+
+		 	<p>
+		 		<p><br><br>
+
+		 		&copy; ROK_MASPIK Crew
+
+		 			<br>
+  
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+     <script type="text/javascript"  src='http://cdn.renderedfont.com/js/renderedfont-0.8.min.js#free'></script>
+
+  </body>
+</html>
+
