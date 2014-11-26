@@ -38,8 +38,8 @@ class NameForm(forms.Form):
 
 class PhoneNumberForm(forms.Form):
 
-    CountryCode = forms.IntegerField(label="Country Code",widget=forms.TextInput(attrs={'size': '12'}),initial=1)
-    AreaCode = forms.IntegerField(label="Area Code",widget=forms.TextInput(attrs={'size': '1'}),initial=800)
+    CountryCode = forms.IntegerField(label="Country Code",widget=forms.TextInput(attrs={'size': '3'}),initial=1)
+    AreaCode = forms.IntegerField(label="Area Code",widget=forms.TextInput(attrs={'size': '3'}),initial=800)
     PhoneNumber = forms.IntegerField(label="Phone Number",widget=forms.TextInput(attrs={'size': '10'}),initial=5555555)
     def get_number(self):
         return "+{0}{1}{2}".format(self.cleaned_data["CountryCode"],
