@@ -1,6 +1,7 @@
 from django.http.response import HttpResponse
 from conference.models import Counter
 from django.contrib.gis.geoip import GeoIP
+from confession.redis_conference_wrapper import AddNumberAndGetPair
 
 
 __author__ = 'tal'
@@ -19,14 +20,14 @@ def country_to_origin_number(Country_code):
 def UpdateConferenceSerial():
     NumberOfCalls =Counter.objects.get_or_create(pk=1)[0]
     ConferenceName = Counter.objects.get_or_create(pk=2)[0]
-    if NumberOfCalls.Count % 2 == 0 :
-        ConferenceName.Count = NumberOfCalls.Count /2
-        ConferenceName.save()
     NumberOfCalls.Count +=1
+    ConferenceName.Count = NumberOfCalls.Count
+    ConferenceName.save()
+
     NumberOfCalls.save()
 
 def call(num,origin_number):
-    UpdateConferenceSerial()
+
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     c = twilio_client.calls.create(to=num, from_ = origin_number,
             url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
@@ -84,8 +85,13 @@ def get_name(request):
             else:
                 country = 'Rome' # default city
             origin_number =country_to_origin_number(country)
-            c= call(form.get_number(),origin_number)
+            NumPair = AddNumberAndGetPair(form.get_number())
+            if NumPair.ready == True:
+                c= call(NumPair.Number1,origin_number)
+                c= call(NumPair.Number2,origin_number)
+                UpdateConferenceSerial()
             # redirect to a new URL:
+            c = None
             return conf(c,country)
 
     # if a GET (or any other method) we'll create a blank form
