@@ -30,7 +30,7 @@ def call(num,origin_number):
 
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     c = twilio_client.calls.create(to=num, from_ = origin_number,
-            url="https://twimlets.com/conference?Name=conf_{0}".format(ConferenceName)
+            url="http://twimlbin.com/external/e0bc03ea6ef18cd5?Name=conf_{0}".format(ConferenceName)
     )
     return c
 
