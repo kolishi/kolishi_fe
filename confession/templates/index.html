@@ -10,6 +10,18 @@
   ga('send', 'pageview');
 
 </script>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="{{ STATIC_URL }}jquery-photo-resize.js"></script>
+<script type="text/javascript" charset="utf-8">
+			$(document).ready(function() {
+				$("img").photoResize({
+					bottomSpacing: 15
+				});
+			});
+		</script>
+		<style type="text/css" media="screen">
+			body { text-align: center; }
+		</style>
   <head>
     <title>Kolishi.io</title>
 
@@ -43,8 +55,9 @@
 
  <div align="center">
 
-{% load staticfiles %}
-<img src="http://i.imgur.com/AcjwQcD.png" alt="My image"/>
+<div class="IMG">
+<img src="http://i.imgur.com/sTPBNMG.png?zz=1" alt="My image" height=300 width =400>
+    </div>
 
 <p>
 
