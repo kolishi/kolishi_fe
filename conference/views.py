@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from django.http.response import HttpResponse
 from conference.models import Counter
 from django.contrib.gis.geoip import GeoIP
@@ -47,6 +48,12 @@ class PhoneNumberForm(forms.Form):
                                    self.cleaned_data["AreaCode"],
                                    self.cleaned_data["PhoneNumber"]
                             )
+
+    def clean(self):
+        if (self.cleaned_data["CountryCode"]==1):
+            raise ValidationErr("Hello")
+
+
 def thanks(request,*args):
     text =request.POST
 
@@ -75,24 +82,29 @@ def get_name(request):
 
 
         # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            g = GeoIP()
-            ip = get_client_ip(request)
-            if ip:
-                country = g.country(ip)['country_code']
-            else:
-                country = 'Rome' # default city
-            origin_number =country_to_origin_number(country)
-            NumPair = AddNumberAndGetPair(form.get_number())
-            if NumPair.ready == True:
-                c= call(NumPair.Number1,origin_number)
-                c= call(NumPair.Number2,origin_number)
-                UpdateConferenceSerial()
-            # redirect to a new URL:
-            c = None
-            return conf(c,country)
+        try:
+            if form.is_valid():
+                # process the data in form.cleaned_data as required
+                # ...
+                g = GeoIP()
+                ip = get_client_ip(request)
+                if ip:
+                    country = g.country(ip)['country_code']
+                else:
+                    country = 'Rome' # default city
+                    origin_number =country_to_origin_number(country)
+
+                    NumPair = AddNumberAndGetPair(form.get_number())
+
+                    if NumPair.ready == True:
+                        c= call(NumPair.Number1,origin_number)
+                        c= call(NumPair.Number2,origin_number)
+                        UpdateConferenceSerial()
+                    # redirect to a new URL:
+                    c = None
+                    return conf(c,country)
+        except ValidationErr,e:
+                pass
 
     # if a GET (or any other method) we'll create a blank form
     else:
