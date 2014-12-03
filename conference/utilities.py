@@ -1,3 +1,5 @@
+from django_twilio.client import twilio_client
+from conference.models import Counter
 PHONE_NUMERS = { "IL" : "97243748620",
                  "GB" : "+441702680287",
                  "US" : "+15167084158"
@@ -18,8 +20,9 @@ def UpdateConferenceSerial():
 def call(num,origin_number):
 
     ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
+    url ="http://twimlbin.com/44b011ea?Name=conf_{0}&From={1}&To={2}".format(ConferenceName,origin_number,num)
     c = twilio_client.calls.create(to=num, from_ = origin_number,
-            url="http://twimlbin.com/external/e0bc03ea6ef18cd5?Name=conf_{0}".format(ConferenceName)
+            url=url
     )
     return c
 

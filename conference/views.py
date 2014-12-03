@@ -17,10 +17,10 @@ def thanks(request,*args):
     return HttpResponse("Calling")
 
 def conf(call,city):
-    ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
+    #ConferenceName = Counter.objects.get_or_create(pk=2)[0].Count
     return HttpResponse(
 
-        "Call status is {0} ".format(ConferenceName)
+        "Kolishi will call you soon with someone to talk to "
     )
 
     return HttpResponse(text)
