@@ -45,17 +45,17 @@ def get_name(request):
                     country = g.country(ip)['country_code']
                 else:
                     country = 'Rome' # default city
-                    origin_number =country_to_origin_number(country)
+                origin_number =country_to_origin_number(country)
 
-                    NumPair = AddNumberAndGetPair(form.get_number())
+                NumPair = AddNumberAndGetPair(form.get_number())
 
-                    if NumPair.ready == True:
-                        c= call(NumPair.Number1,origin_number)
-                        c= call(NumPair.Number2,origin_number)
-                        UpdateConferenceSerial()
-                    # redirect to a new URL:
-                    c = None
-                    return conf(c,country)
+                if NumPair.ready == True:
+                    c= call(NumPair.Number1,origin_number)
+                    c= call(NumPair.Number2,origin_number)
+                    UpdateConferenceSerial()
+                # redirect to a new URL:
+                c = None
+                return conf(c,country)
         except ValidationErr,e:
                 pass
 
