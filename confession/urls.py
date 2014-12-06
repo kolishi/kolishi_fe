@@ -8,8 +8,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$',include('conference.urls')),
-    url(r'^test/',include('conference.urls')),
+    url(r'^$',include('bootstrap.urls')),
+    url(r'^api/',include('conference.urls')),
     url(r'^boot/',include('bootstrap.urls'))
 )
 urlpatterns += staticfiles_urlpatterns()
