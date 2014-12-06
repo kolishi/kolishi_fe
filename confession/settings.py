@@ -40,7 +40,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_twilio',
     'django_extensions',
-    'conference'
+    'bootstrap3',
+    'bootstrap',
+    'conference',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -94,3 +97,11 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     PROJECT_PATH + '/templates/',
 )
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
+TEMPLATE_LOADERS = (
+'django.template.loaders.filesystem.Loader',
+'django.template.loaders.app_directories.Loader',
+#django.template.loaders.eggs.Loader',
+)
+
