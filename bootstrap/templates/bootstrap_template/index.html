@@ -76,7 +76,7 @@
                 <h2>Enter your number and we'll connect you to someone new</h2>
                 <div class="col-lg-12 text-center">
 
-            <form id="number_form"  class="navbar-form">
+            <form id="number_form"  action="#thank_you" method="get" class="navbar-form">
                 {% csrf_token %}
                 {% bootstrap_form form  %}
                 {% buttons %}
@@ -88,6 +88,27 @@
         </div></div></div></div>
 
     </section>>
+
+    <section id="thank_you" class="about hide">
+        <div class="text-vertical-center">
+            <div class="container">
+            <div class="row">
+                <h2> Thanks! We will call you soon with some one new to talk to.</h2>
+                </div>
+                </div>
+            </div>
+        </section>
+    </footer>
+    <section id="error" class="about hide">
+        <div class="text-vertical-center">
+            <div class="container">
+            <div class="row">
+                <h2> Oh No! Something went wrong. Please try again soon</h2>
+                <a href="#services" class="btn btn-dark btn-lg">Try Again</a>
+                </div>
+                </div>
+            </div>
+        </section>
     </footer>
 
     <!-- jQuery -->
@@ -133,11 +154,12 @@
     var formData = $(this).serialize();
     console.log(formData);
     $.ajax({
-        url: "/", // some php
+        url: "/api/", // some php
         data: formData,
         datatype: "json",
         type: "POST",
-        success: function(data) {}
+        error: function(data) {$("#error").removeClass('hide'); document.location ='#error'},
+        success: function(data) {$("#thank_you").removeClass('hide'); document.location ='#thank_you'}
    });
 });
 </script>
