@@ -1,26 +1,30 @@
 from .  import Redis_connection_pool as RS
 
-def AddNumberToRedis(Number):
-    RS.set("FirstNumber",Number)
+def AddNumberToRedis(FromNumber,ToNumber):
+    RS.set("FirstNumber",(FromNumber,ToNumber))
 class ConferenceStatus:
     def __init__(self):
         self.ready = False
-        self.Number1 = 0
-        self.Number2 = 1
-    def addNumbes(self,Num1,Num2):
-        self.Number1 = Num1
-        self.Number2 = Num2
+        self.FromNumber1 = 0
+        self.FromNumber2 = 1
+        self.ToNumber1 = 0
+        self.ToNumber2 = 1
+    def addNumbes(self,FromNum1,ToNum1,FromNum2,ToNum2):
+        self.FromNumber1 = FromNum1
+        self.ToNumber1 = ToNum1
+        self.FromNumber2 = FromNum2
+        self.ToNumber2 = ToNum2
         self.ready =True
 
-def AddNumberAndGetPair(NewNumber):
-    Num = RS.get("FirstNumber")
+def AddNumberAndGetPair(NewNumberFrom,NewNumberTo):
+    OldNumTuple = RS.get("FirstNumber")
 
-    if Num is None : # If this is the first number
-        AddNumberToRedis(NewNumber)
+    if OldNumTuple is None : # If this is the first number
+        AddNumberToRedis((NewNumberFrom,NewNumberTo))
         return ConferenceStatus()
     else:
         C = ConferenceStatus()
-        C.addNumbes(Num,NewNumber)
+        C.addNumbes(*(NewNumberFrom,NewNumberTo),*OldNumTuple)
         RS.delete("FirstNumber")
         return C
 

@@ -51,8 +51,8 @@ def get_name(request):
                 NumPair = AddNumberAndGetPair(form.get_number())
 
                 if NumPair.ready == True:
-                    c= call(NumPair.Number1,origin_number)
-                    c= call(NumPair.Number2,origin_number)
+                    c= call(NumPair.ToNumber1,NumPair.FromNumber1)
+                    c= call(NumPair.ToNumber2,NumPair.FromNumber2)
                     UpdateConferenceSerial()
                 # redirect to a new URL:
                 c = None
