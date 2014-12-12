@@ -20,11 +20,12 @@ def AddNumberAndGetPair(NewNumberFrom,NewNumberTo):
     OldNumTuple = RS.get("FirstNumber")
 
     if OldNumTuple is None : # If this is the first number
-        AddNumberToRedis((NewNumberFrom,NewNumberTo))
+        AddNumberToRedis(NewNumberFrom,NewNumberTo)
         return ConferenceStatus()
     else:
+        OldNumTuple = OldNumTuple.replace("(","").replace(")","").replace("'","").replace(' ','').split(",")
         C = ConferenceStatus()
-        C.addNumbes(*(NewNumberFrom,NewNumberTo),*OldNumTuple)
+        C.addNumbes(NewNumberFrom,NewNumberTo,*OldNumTuple)
         RS.delete("FirstNumber")
         return C
 

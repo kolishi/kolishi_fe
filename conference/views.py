@@ -41,24 +41,29 @@ def get_name(request):
                 # ...
 
                 g = GeoIP()
+
                 ip = get_client_ip(request)
+                ip =None
+
                 if ip:
                     country = g.country(ip)['country_code']
                 else:
                     country = 'Rome' # default city
                 origin_number =country_to_origin_number(country)
 
-                NumPair = AddNumberAndGetPair(form.get_number())
+                NumPair = AddNumberAndGetPair(origin_number, form.get_number() )
 
                 if NumPair.ready == True:
-                    c= call(NumPair.ToNumber1,NumPair.FromNumber1)
                     c= call(NumPair.ToNumber2,NumPair.FromNumber2)
+                    c= call(NumPair.ToNumber1,NumPair.FromNumber1)
+
                     UpdateConferenceSerial()
                 # redirect to a new URL:
                 c = None
                 return conf(c,country)
 
         except ValidationErr,e:
+                print e
                 raise Exception(request.POST)
 
 
