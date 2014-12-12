@@ -25,7 +25,7 @@
     <title>Kolishi.io- chat roulette for your phone</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{{STATIC_URL}}css/stylish-portfolio.css" rel="stylesheet">
@@ -178,7 +178,7 @@
     $.ajax({
         url: "/api/", // some php
         data: formData,
-        datatype: "json",
+        datatype: "json",F
         type: "POST",
         error: function(data) {$("#error").removeClass('hide'); document.location ='#error'},
         success: function(data) {$("#thank_you").removeClass('hide'); document.location ='#thank_you'}
