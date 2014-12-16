@@ -17,6 +17,4 @@ class PhoneNumberForm(forms.Form):
                             )
 
     def clean(self):
-        if (self.cleaned_data["CountryCode"]==1):
-            raise ValidationErr("Hello")
-
+        pass
